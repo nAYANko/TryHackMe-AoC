@@ -19,3 +19,5 @@ CeWL provides a lot of options that allow you to tailor the wordlist to your nee
 
 Now onto the challenge,
 
+We need to use CeWL to create a passwords and a users list and use wfuzz brute force to break into the login
+

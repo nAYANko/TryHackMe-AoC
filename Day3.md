@@ -42,7 +42,7 @@ The command above will try one password after another in the 3digits.txt file. I
 
 Now we move onto the challenge,
 
-First we visit the machine IP, http://10.10.20.138:8000/ , it takes a 3 digit pin with a character set 0123456789ABCDEF, on inspecting the page we can fnd out the HTML method used, login page url, and the name assigned to the pin.
+First we visit the machine IP, http://10.10.20.138:8000/ , it takes a 3 digit pin with a character set 0123456789ABCDEF, on inspecting the page we can fnd out the HTML method used, login page url, and the name assigned to the pin. In other words, the main login page http://10.10.20.138:8000/pin.php receives the input from the user and sends it to /login.php using the name pin.
 
 ![VirtualBox_Ayan_21_12_2023_19_38_06](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/4938c5ea-40f4-4b90-bafd-459d389cd756)
 

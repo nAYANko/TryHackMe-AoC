@@ -42,7 +42,19 @@ The command above will try one password after another in the 3digits.txt file. I
 
 Now we move onto the challenge,
 
+First we visit the machine IP, http://10.10.20.138:8000/ , it takes a 3 digit pin with a character set 0123456789ABCDEF, on inspecting the page we can fnd out the HTML method used, login page url, and the name assigned to the pin.
+
+![VirtualBox_Ayan_21_12_2023_19_38_06](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/4938c5ea-40f4-4b90-bafd-459d389cd756)
 
 
+Now we use to crunch to make the passwords dataset
+
+![VirtualBox_Ayan_21_12_2023_19_39_49](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/a7767f11-56f6-4796-a17e-4958ea65dbfc)
+
+Now we install and run hydra using given syntax, and we get the password : "6F5"
+
+Log into the machine and unlock the door to get the flag : "THM{pin-code-brute-force}"
+
+![VirtualBox_Ayan_21_12_2023_19_48_13](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/d642e571-48b4-4005-80eb-3067ce04689b)
 
 

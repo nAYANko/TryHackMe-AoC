@@ -10,15 +10,18 @@ Here we will learn the basics of DOS and the windows command prompt. We are show
 2. dir to list contents if a directory
 3. cd to change directory, eg. cd notes to switch to directory called notes, cd .. to go back to parent directory
 4. type followed by filename to list file contents, OR use edit followed by file name to view and edt file content
+
 .........................................................................
+
 File signatures, commonly referred to as "magic bytes", are specific byte sequences at the beginning of a file that identify or verify its content type and format. These bytes often have corresponding ASCII characters, allowing for easier human readability when inspected. The identification process helps software applications quickly determine whether a file is in a format they can handle, aiding operational functionality and security measures.
 
 In cyber security, file signatures are crucial for identifying file types and formats. You'll encounter them in malware analysis, incident response, network traffic inspection, web security checks, and forensics. Knowing how to work with these magic bytes can help you quickly identify malicious or suspicious activity and choose the right tools for deeper analysis.
 
 Some examples of this are [PNG : 89 50 4E 47 0D 0A 1A 0A, GIF : 47 49 46 38, DOS executable : 4D 5A, Linux ELF executbale : 7F 45 4C 46, MP3 : 49 44 33]
+
 ..........................................................................
 
-Navigating to C:\DEV\HELLO we see a file HELLO.C, we open it with "Borland Turbo C compiler" as `TC HELLO.C`
+>> Navigating to C:\DEV\HELLO we see a file HELLO.C, we open it with "Borland Turbo C compiler" as `TC HELLO.C`
 
 ![Screenshot (112)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/bc423543-0f06-405f-9651-8b8b85552d9b)
 

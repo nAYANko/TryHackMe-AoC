@@ -21,7 +21,7 @@ Some examples of this are [PNG : 89 50 4E 47 0D 0A 1A 0A, GIF : 47 49 46 38, DOS
 
 ..........................................................................
 
->> Navigating to C:\DEV\HELLO we see a file HELLO.C, we open it with "Borland Turbo C compiler" as `TC HELLO.C`
+Navigating to C:\DEV\HELLO we see a file HELLO.C, we open it with "Borland Turbo C compiler" as `TC HELLO.C`
 
 ![Screenshot (112)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/bc423543-0f06-405f-9651-8b8b85552d9b)
 

@@ -33,6 +33,8 @@ Changing name to AAAABBBBCCCCDEFG leads to 1195787588 coins. Now the value of by
 ![Screenshot (129)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/0d9eadf7-1d87-4696-b651-e55905fcb4f1)
 ********************
 
+Now we move to the challenge,
+
 The number of coins when variable stores 4f 4f 50 53 is 0x(53 50 4f 4f) in decimal which is 1397772111.
 
 If we try to buy the star from the shopkeeper, we are denied as follows which proves that the game is actually rigged.
@@ -44,6 +46,8 @@ If we try to buy the star from the shopkeeper, we are denied as follows which pr
 ![Screenshot (126)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/ae211a02-18c5-4bf0-91ac-592226fc794e)
 
 ![Screenshot (127)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/055fc87a-ef4e-445f-a409-a99241b17048)
+
+The item he gives us is of no use.
 
 To solve the challenge, we need to overflow the memory till it reaches the inv_items variable and then make that byte as " d " , which is the item id for the star.
 The star automatically appears in the inventory. Give it the tree to get the flag : "THM{mchoneybell_is_the_real_star}"

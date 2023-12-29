@@ -25,15 +25,25 @@ LINUX COMMANDS DISCUSSION
 
 CAT: Display the contents of single or multiple files, it shows all content till the end of file so it can become quite overwhelming for very large files.
 
+![Screenshot (146)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/0081e418-43dd-4aa8-a2ae-2fea5107dbc3)
+
 LESS: This command lets you view the contents of a file one at a time, either line by line or page by page, it makes the reviewing of logs less overwhelming, to navigate use up/down keys to move line by line and pageUp(b)/pageDown(space) to move page by page. Exit by pressing q.
 
 HEAD: Lets you view contents on top of a file. Executing `head access.log` lets you view the first 10 entries of the log. To specify the number of lines typr -n followed by number of lines.
 
+![Screenshot (147)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/342fa49e-3f83-459a-8bd4-524dcd735f09)
+
 TAIL: This command allows you to view the end of the file. To display the last 10 entries of the log, execute `tail access.log` on the terminal. To specify the number of lines typr -n followed by number of lines. 
+
+![Screenshot (148)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/18ab5150-1227-448b-8f0e-a92e1be5c3cc)
 
 WC: The wc command stands for word count. It's a command-line tool that counts the number of lines, words, and characters in a text file. Try executing wc access.log. By default, it prints the count of lines, words, and characters as shown in your terminal. Use -l to display line count.
 
+![Screenshot (149)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/615fdadc-7e8f-4069-9877-b470791ca57f)
+
 NL: The nl command stands for number lines. It renders the contents of the file in a numbered line format.
+
+![Screenshot (150)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/132d490e-f4dd-46ac-a06c-55b917e5bc68)
 
 CONTENTS OF PROXY LOG
 
@@ -69,9 +79,13 @@ As you can see in the table above, we can break the log entry down and assign a 
 
 ```cut -d ' ' -f1 access.log```
 
+![Screenshot (151)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/210a0308-6f64-4af0-9cf9-31203a157964)
+
 We can select multiple coloums by seperating them by commas(,) in -f.
 
 ```cut -d ' ' -f1,3,6 access.log```
+
+![Screenshot (152)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/0977029b-4b51-438a-8f13-7a14cafdd7f0)
 
 The space delimiter won't work if you plan to get the User-Agent column since its value may contain a space, just like in the example log:
 
@@ -80,6 +94,8 @@ The space delimiter won't work if you plan to get the User-Agent column since it
 Given this, you must change the delimiter and select column #2 because the User-Agent is enclosed with double quotes.
 
 ```cut -d '"' -f2 access.log```
+
+![Screenshot (153)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/999f637b-c400-4045-9cd8-163200d430a9)
 
 In the example above, we used column #2 since column #1 will provide the contents before the first use of double quotes ("). Try executing cut -d '"' -f1 access.log and see how the output differs from the space delimiter.
 
@@ -94,6 +110,8 @@ To do this, we'll combine the grep command with the head command.
 Grep is a command in Linux that is used for searching text within files or input streams. It typically follows the syntax: `grep OPTIONS STRING_TO_SEARCH FILE_NAME`.
 
 Let's use the command to focus on the connections made by the specific IP by executing `grep 10.10.140.96 access.log`. To limit the display to the first five entries, we can append `| head -n 5` to that command to achieve our goal.
+
+![Screenshot (154)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/06fbe2ea-1e63-44eb-b6a9-e8b595cd56c5)
 
 The first command's output may have been a little too overwhelming since it provides every connection made by the specific IP. Meanwhile, appending a pipe with a head command limited the results to five.
 
@@ -113,10 +131,81 @@ We already have the list of unique domains based on our previous use case. Now, 
 
 ```cut -d ' ' -f3 access.log | cut -d ':' -f1 | sort | uniq -c```
 
+![Screenshot (155)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/6402efd1-77f1-4e57-8d9f-a1ffab925feb)
+
 Moreover, the result can be sorted again based on the count of each domain by using the -n option for ascending and -r or -nr for descending of the sort command.
 
 ***************
 
 Now moving onto the challenge,
 
+We find the top 10 most visited domains by the user, You can do this by reusing the previous command to retrieve the connection count for each domain and 
+`| tail -n 10` to get the last 10 items.
+
+![Screenshot (156)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/eca2cf84-35ca-46c9-8b5d-3f6ea091e02a)
+
+We see one suspicious domain i.e. frostlings.bigbadstash.thm, Upon checking the list of requests made to this domain, we see something unusual with the string passed to the `goodies` parameter. Let's try to retrieve the data by cutting the request URI with equals (=) as its delimiter.
+
+![Screenshot (158)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/7abf3d63-3ba9-4acc-8164-d7b3888b85a3)
+
+We pull the text using grep and the text is base64 encoded so we use `base64 -d` to get the decoded data which seems to be important.
+
+![Screenshot (159)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/e4c02089-1e5f-4956-bf76-932436c057f7)
+
+ANSWERS TO QUESTIONS::
+
+1. No. of Unique IPs connected to the server - 9
+
+    ```
+    cut -d ' ' -f2 access.log | sort | uniq | nl
+    ```
+
+![Screenshot (160)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/b128c5a5-e18f-43c5-8941-a723ab86241d)
+
+We use 2 in -f to get the IP column, piped with sort to sort all similar stuff together alphabetically, piped with uniq to remove all similar terms, piped with nl to number the lines. We see 9 different IPs.
+
+2. No. of unique domains accessed by all work stations - 111
+
+    ```
+    cut -d ' ' -f3 access.log | cut -d ':' -f1 | sort | uniq | nl
+    ```
+
+![Screenshot (161)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/fce9cf0e-54a6-475b-be59-3547291a4a03)
+
+The 3 in -f to get the Domain:port column, piped with another cut command with : delimiter and -f1 to get the Domain part ignoring the port, sort and uniq for their respective purpose and nl to number the lines. 111 unique domains.
+
+3. Status code of the least accessed domain - 503
+
+   First we find the least accessed domain which is partnerservices.getmicrosoftkey.com
+   ```
+    cut -d ' ' -f3 access.log | cut -d ':' -f1 | sort | uniq -c | sort -n
+   ```
+
+![Screenshot (162)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/2a745fff-8d36-4f49-881b-779742774e70)
+
+   Then we grep that doamin, cut the status code column and then use uniq.
+   ```
+   grep partnerservices.getmicrosoftkey.com access.log | cut -d ' ' -f6 | uniq
+   ```
+
+![Screenshot (163)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/e4c9cfc3-e197-4657-ad8a-26b57e21f4c5)
+
+4. Name of suspicious domain and IP of the workstation that accessed it - frostlings.bigbadstash.thm   10.10.185.225
+
+![Screenshot (157)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/9b147ba9-9e6f-43b9-a6e6-ffe7d6796fb3)
+
+5. Requests made to suspicious domain - 1581
+
+![Screenshot (164)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/09ff9a4c-5650-4c21-92cf-e0ab90fe062e)
+
+6. Getting the flag -  THM{a_gift_for_you_awesome_analyst!}
+   
+![Screenshot (165)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/922c127a-d8db-4a35-b600-c9ddc98f40ea)
+
+Other way is to,
+```
+grep frostlings.bigbadstash.thm access.log | cut -d ' ' -f5 | cut -d '=' -f2 | base64 -d | grep THM{
+```
+
+![Screenshot (166)](https://github.com/nAYANko/TryHackMe-AoC/assets/147973815/f0a205f3-f3ed-4f80-a06e-db49f22f95b1)
 
